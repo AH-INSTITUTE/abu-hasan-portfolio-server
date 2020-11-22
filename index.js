@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(fieUpload());
 
-const port = process.env.PORT || 5000;
+// const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.send("ABU HASAN");
@@ -89,4 +89,4 @@ client.connect((err) => {
 
 });
 
-app.listen(port);
+app.listen(process.env.PORT);
