@@ -74,7 +74,6 @@ client.connect((err) => {
       }
     });
   });
-
   app.get("/getBlogs", (req, res) => {
     const filterObject = {};
     req.query.field && (filterObject.field = req.query.field);
@@ -87,6 +86,30 @@ client.connect((err) => {
     });
   });
 
+  //skill collection
+  const skillCT = client.db(process.env.DB_NAME).collection(process.env.BD_Skill);
+  app.post("/addSkill", (req, res) => {
+    skillCT.insertOne(req.body).then((result) => {
+      if (result.insertedCount > 0) {
+        res.status(200).send(result.insertedCount > 0);
+      } else {
+        res.sendStatus(404);
+      }
+    });
+  });
+  app.get("/getSkill", (req, res) => {
+    const filterObject = {};
+    req.query.typeOf && (filterObject.typeOf = req.query.typeOf);
+    skillCT.find(filterObject).toArray((err, projects) => {
+      if (projects.length) {
+        res.status(200).send(projects);
+      } else {
+        res.sendStatus(404);
+      }
+    });
+  });
 });
 
 app.listen(process.env.PORT);
+
+
